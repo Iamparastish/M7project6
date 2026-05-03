@@ -1,40 +1,56 @@
 import tkinter as tk
+import random
 
-# Function to calculate product
-def calculate_product():
-    try:
-        num1 = float(entry1.get())
-        num2 = float(entry2.get())
-        result = num1 * num2
-        result_label.config(text="Product: " + str(result))
-    except ValueError:
-        result_label.config(text="Please enter valid numbers")
+# Choices
+choices = ["Rock", "Paper", "Scissors"]
 
-# Create main window
+# Function to determine winner
+def play(user_choice):
+    computer_choice = random.choice(choices)
+    
+    result = ""
+    if user_choice == computer_choice:
+        result = "It's a Tie!"
+    elif (user_choice == "Rock" and computer_choice == "Scissors") or \
+         (user_choice == "Paper" and computer_choice == "Rock") or \
+         (user_choice == "Scissors" and computer_choice == "Paper"):
+        result = "You Win!"
+    else:
+        result = "Computer Wins!"
+    
+    # Update labels
+    user_label.config(text="You chose: " + user_choice)
+    comp_label.config(text="Computer chose: " + computer_choice)
+    result_label.config(text=result)
+
+# Create window
 root = tk.Tk()
-root.title("Product Calculator")
-root.geometry("300x200")
+root.title("Rock Paper Scissors Game")
+root.geometry("350x300")
 
-# Labels and Entry widgets
-label1 = tk.Label(root, text="Enter first number:")
-label1.pack()
+# Title label
+title = tk.Label(root, text="Rock Paper Scissors", font=("Arial", 16))
+title.pack(pady=10)
 
-entry1 = tk.Entry(root)
-entry1.pack()
+# Buttons
+btn_rock = tk.Button(root, text="Rock", width=10, command=lambda: play("Rock"))
+btn_rock.pack(pady=5)
 
-label2 = tk.Label(root, text="Enter second number:")
-label2.pack()
+btn_paper = tk.Button(root, text="Paper", width=10, command=lambda: play("Paper"))
+btn_paper.pack(pady=5)
 
-entry2 = tk.Entry(root)
-entry2.pack()
+btn_scissors = tk.Button(root, text="Scissors", width=10, command=lambda: play("Scissors"))
+btn_scissors.pack(pady=5)
 
-# Button to calculate
-calc_button = tk.Button(root, text="Calculate Product", command=calculate_product)
-calc_button.pack(pady=10)
+# Result labels
+user_label = tk.Label(root, text="You chose: ")
+user_label.pack(pady=5)
 
-# Label to display result
-result_label = tk.Label(root, text="Product: ")
-result_label.pack()
+comp_label = tk.Label(root, text="Computer chose: ")
+comp_label.pack(pady=5)
 
-# Run the application
+result_label = tk.Label(root, text="", font=("Arial", 12))
+result_label.pack(pady=10)
+
+# Run app
 root.mainloop()
